@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>MacroFit</title>
+<meta name="description" content="Control de macros, recetas, deporte y coach personal">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MacroFit">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="app"></main>
+
+<nav class="tabbar"><div class="tabbar-in" id="tabbar"></div></nav>
+
+<div id="sheet" class="sheet" aria-hidden="true">
+  <div class="sheet-bg" data-act="closeSheet"></div>
+  <div class="sheet-panel"><div class="grab"></div><div id="sheet-body"></div></div>
+</div>
+<div id="toast" class="toast"></div>
+<div id="lock" class="lock hidden"></div>
+
+<script src="data.js"></script>
+<script src="ex-img.js"></script>
+<script src="coach.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
