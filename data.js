@@ -107,7 +107,7 @@ const FOOD_ROWS = [
   ['Calabacín', 'ver', 17, 1.2, 3.1, 0.3, 'ración', 150, '🥒'],
   ['Pimiento rojo', 'ver', 31, 1, 6, 0.3, 'pimiento', 150, '🫑'],
   ['Cebolla', 'ver', 40, 1.1, 9, 0.1, 'cebolla', 110, '🧅'],
-  ['Champiñones', 'ver', 22, 3.1, 3.3, 0.3, 'ración', 100, '🍄'],
+  ['Champiñones', 'ver', 22, 3.1, 3.3, 0.3, 'ración', 100, '🍄‍🟫'],
   ['Coliflor', 'ver', 25, 1.9, 5, 0.3, 'ración', 150, '🥦'],
   ['Judías verdes', 'ver', 31, 1.8, 7, 0.2, 'ración', 150, '🫛'],
   ['Berenjena', 'ver', 25, 1, 6, 0.2, 'ración', 150, '🍆'],
@@ -167,7 +167,26 @@ const FOOD_ROWS = [
   ['Salsa de soja', 'otr', 53, 8, 5, 0.6, 'cucharada', 15, '🥢'],
   ['Mostaza', 'otr', 66, 4, 5, 4, 'cucharadita', 5, '🌭'],
   ['Vinagre balsámico', 'otr', 88, 0.5, 17, 0, 'cucharada', 15, '🍇'],
-  ['Caldo de verduras', 'otr', 5, 0.2, 0.8, 0.1, 'taza', 250, '🍲']
+  ['Caldo de verduras', 'otr', 5, 0.2, 0.8, 0.1, 'taza', 250, '🍲'],
+  // ---- añadidos v3 ----
+  ['Creatina monohidrato', 'otr', 0, 0, 0, 0, 'dosis', 5, '💪'],
+  ['Proteína de caseína (polvo)', 'prot', 360, 80, 8, 2, 'scoop', 30, '🥤'],
+  ['Atún fresco (crudo)', 'prot', 108, 23, 0, 1, 'filete', 150, '🐟'],
+  ['Tofu sedoso', 'prot', 55, 4.8, 2, 2.7, 'ración', 100, '🧈'],
+  ['Agua de coco', 'lact', 19, 0.7, 3.7, 0.2, 'vaso', 250, '🥥'],
+  ['Leche de coco light', 'lact', 70, 0.5, 2, 7, 'ración', 100, '🥥'],
+  ['Queso parmesano', 'lact', 431, 38, 4, 29, 'cucharada', 10, '🧀'],
+  ['Harina de avena', 'cer', 375, 13, 60, 7, 'cucharada', 10, '🌾'],
+  ['Tortilla de maíz', 'cer', 218, 5.7, 45, 2.9, 'tortilla', 30, '🌮'],
+  ['Pan de pita integral', 'cer', 266, 9.8, 55, 1.7, 'pita', 60, '🫓'],
+  ['Pimiento verde', 'ver', 20, 0.9, 4.6, 0.2, 'pimiento', 120, '🫑'],
+  ['Jengibre fresco', 'ver', 80, 1.8, 18, 0.8, 'trozo', 5, '🫚'],
+  ['Albahaca fresca', 'ver', 23, 3, 2.6, 0.6, 'puñado', 5, '🌿'],
+  ['Alga nori', 'ver', 35, 6, 5, 0.3, 'hoja', 3, '🌿'],
+  ['Mantequilla de almendra', 'gra', 614, 21, 19, 56, 'cucharada', 16, '🥜'],
+  ['Semillas de sésamo', 'gra', 573, 17.7, 23, 49.7, 'cucharadita', 5, '🌱'],
+  ['Canela', 'otr', 247, 4, 81, 1.2, 'pizca', 2, '🌿'],
+  ['Hielo', 'otr', 0, 0, 0, 0, 'cubito', 10, '🧊']
 ];
 
 const FOODS = FOOD_ROWS.map((r, i) => ({
@@ -178,7 +197,7 @@ const FOOD_BY_NAME = Object.fromEntries(FOODS.map(f => [f.name, f]));
 
 /* =====================================================================
    Platos (macros calculados automáticamente desde los ingredientes)
-   type: desayuno | snack | comida | cena
+   type: desayuno | snack | comida | cena | batido
    tags: hp = alta proteína, lc = bajo en hidratos, veg = vegetariano, vgn = vegano
    ===================================================================== */
 const DISH_ROWS = [
@@ -320,7 +339,157 @@ const DISH_ROWS = [
     steps: ['Cuece la coliflor y la patata 15 minutos y tritúralas con parte del aceite y sal.', 'Marca la merluza en la plancha 3-4 minutos por lado.', 'Sirve sobre el puré con un chorrito de aceite y limón.'] },
   { n: 'Ensalada templada de garbanzos y atún', e: '🥗', type: 'cena', tags: ['hp'], min: 10,
     ing: [['Garbanzos (cocidos)', 200], ['Atún al natural (lata)', 104], ['Tomate', 100], ['Cebolla', 40], ['Rúcula', 30], ['Aceite de oliva virgen extra', 10]],
-    steps: ['Calienta ligeramente los garbanzos.', 'Mezcla con el atún, el tomate, la cebolla picada y la rúcula.', 'Aliña con aceite, vinagre y sal.'] }
+    steps: ['Calienta ligeramente los garbanzos.', 'Mezcla con el atún, el tomate, la cebolla picada y la rúcula.', 'Aliña con aceite, vinagre y sal.'] },
+
+  // ================= v3: BATIDOS DE PROTEÍNA =================
+  { n: 'Batido post-entreno con creatina', e: '🥤', type: 'batido', tags: ['hp', 'veg'], min: 3, look: 'shake', color: '#E9D3B0',
+    ing: [['Leche semidesnatada', 250], ['Proteína whey (polvo)', 30], ['Plátano', 120], ['Avena en copos (cruda)', 30], ['Creatina monohidrato', 5]],
+    steps: ['Pon la leche en la batidora y añade el resto de ingredientes.', 'Tritura 30-40 segundos hasta que no queden grumos de avena.', 'Tómalo en la hora siguiente al entrenamiento. La creatina funciona por toma diaria constante (3-5 g), no por el momento exacto.'] },
+  { n: 'Batido de chocolate y cacahuete', e: '🍫', type: 'batido', tags: ['hp', 'veg'], min: 3, look: 'shake', color: '#7B4B2A',
+    ing: [['Bebida de almendras sin azúcar', 300], ['Proteína whey (polvo)', 30], ['Cacao puro en polvo', 8], ['Crema de cacahuete 100%', 16], ['Hielo', 50]],
+    steps: ['Añade la bebida de almendras, el whey, el cacao y la crema de cacahuete a la batidora.', 'Agrega el hielo y tritura hasta que quede espumoso.', 'Sabe a batido de tienda con muy poco azúcar.'] },
+  { n: 'Frappé de café proteico', e: '☕', type: 'batido', tags: ['hp', 'veg'], min: 4, look: 'shake', color: '#C8A27A',
+    ing: [['Café solo', 100], ['Leche desnatada', 200], ['Proteína whey (polvo)', 30], ['Hielo', 80], ['Canela', 1]],
+    steps: ['Prepara el café y déjalo enfriar (o usa café frío).', 'Tritura el café con la leche, el whey y el hielo.', 'Sirve con canela por encima. Ideal como desayuno rápido o antes de entrenar.'] },
+  { n: 'Batido de frutos rojos y skyr', e: '🍓', type: 'batido', tags: ['hp', 'veg'], min: 3, look: 'shake', color: '#E07A9A',
+    ing: [['Skyr natural', 150], ['Frutos rojos (mezcla)', 120], ['Leche desnatada', 150], ['Miel', 7]],
+    steps: ['Pon los frutos rojos (pueden ser congelados) en la batidora.', 'Añade el skyr, la leche y la miel.', 'Tritura hasta que quede cremoso.'] },
+  { n: 'Batido tropical de mango y coco', e: '🥭', type: 'batido', tags: ['hp', 'veg'], min: 3, look: 'shake', color: '#FFC24A',
+    ing: [['Agua de coco', 250], ['Mango', 150], ['Proteína whey (polvo)', 30], ['Limón', 15], ['Hielo', 40]],
+    steps: ['Pela y trocea el mango.', 'Tritura con el agua de coco, el whey, el zumo de limón y el hielo.', 'Muy refrescante e hidratante para días de calor o tras el cardio.'] },
+  { n: 'Batido verde proteico', e: '🥬', type: 'batido', tags: ['hp', 'vgn', 'veg'], min: 4, look: 'shake', color: '#8CCB5E',
+    ing: [['Agua de coco', 200], ['Espinacas', 40], ['Plátano', 100], ['Manzana', 100], ['Proteína vegetal (polvo)', 30], ['Jengibre fresco', 3]],
+    steps: ['Tritura primero las espinacas con el agua de coco para que no queden hebras.', 'Añade el plátano, la manzana troceada, la proteína y el jengibre.', 'Tritura de nuevo. Aporta vitamina C, hierro y potasio.'] },
+  { n: 'Batido de tarta de manzana', e: '🍏', type: 'batido', tags: ['hp', 'veg'], min: 4, look: 'shake', color: '#EBD9A8',
+    ing: [['Yogur griego 0%', 150], ['Manzana', 150], ['Avena en copos (cruda)', 30], ['Leche semidesnatada', 150], ['Proteína whey (polvo)', 20], ['Canela', 2]],
+    steps: ['Trocea la manzana (con piel aporta más fibra).', 'Tritura con el yogur, la avena, la leche, el whey y la canela.', 'Sabe a tarta de manzana y sacia muchísimo.'] },
+  { n: 'Batido nocturno de caseína', e: '🌙', type: 'batido', tags: ['hp', 'veg'], min: 2, look: 'shake', color: '#B98E6B',
+    ing: [['Leche desnatada', 250], ['Proteína de caseína (polvo)', 30], ['Mantequilla de almendra', 10], ['Cacao puro en polvo', 5]],
+    steps: ['Mezcla todo en un vaso o en la batidora.', 'La caseína se digiere despacio: es ideal antes de dormir para recuperar durante la noche.'] },
+  { n: 'Batido vegano de chocolate y dátiles', e: '🌴', type: 'batido', tags: ['hp', 'vgn', 'veg'], min: 4, look: 'shake', color: '#6E4A33',
+    ing: [['Bebida de soja sin azúcar', 300], ['Proteína vegetal (polvo)', 30], ['Dátiles', 24], ['Cacao puro en polvo', 8], ['Plátano', 80]],
+    steps: ['Quita el hueso al dátil.', 'Tritura todo hasta que el dátil quede completamente deshecho.', 'El dátil endulza sin azúcar añadido.'] },
+  { n: 'Batido para ganar masa', e: '💪', type: 'batido', tags: ['hp', 'veg'], min: 4, look: 'shake', color: '#D9B88F',
+    ing: [['Leche semidesnatada', 400], ['Avena en copos (cruda)', 60], ['Plátano', 120], ['Crema de cacahuete 100%', 32], ['Proteína whey (polvo)', 30], ['Miel', 14], ['Creatina monohidrato', 5]],
+    steps: ['Tritura la avena sola unos segundos para hacerla harina.', 'Añade el resto y tritura hasta que quede homogéneo.', 'Unas 900 kcal en un vaso: perfecto si te cuesta llegar a tus calorías en volumen.'] },
+
+  // ================= v3: SMOOTHIES VITAMÍNICOS =================
+  { n: 'Smoothie antioxidante de frutos rojos y kéfir', e: '🫐', type: 'batido', tags: ['veg'], min: 3, look: 'shake', color: '#8E4F9E',
+    ing: [['Kéfir natural', 200], ['Frutos rojos (mezcla)', 150], ['Arándanos', 50], ['Semillas de chía', 10]],
+    steps: ['Tritura el kéfir con los frutos rojos y los arándanos.', 'Añade la chía, remueve y deja reposar 5 minutos para que espese.', 'Rico en antioxidantes, vitamina C y probióticos.'] },
+  { n: 'Smoothie tropical de vitamina C', e: '🍍', type: 'batido', tags: ['vgn', 'veg'], min: 4, look: 'shake', color: '#FFB238',
+    ing: [['Piña', 120], ['Mango', 100], ['Naranja', 150], ['Agua de coco', 150], ['Jengibre fresco', 3]],
+    steps: ['Pela la naranja y trocea la fruta.', 'Tritura todo con el agua de coco y el jengibre.', 'Un vaso cubre de sobra la vitamina C del día.'] },
+  { n: 'Zumo verde de pepino, manzana y kale', e: '🥒', type: 'batido', tags: ['vgn', 'veg', 'lc'], min: 5, look: 'shake', color: '#9BD27A',
+    ing: [['Pepino', 150], ['Manzana', 150], ['Kale / col rizada', 40], ['Limón', 30], ['Jengibre fresco', 5]],
+    steps: ['Lava bien todo y trocea el pepino y la manzana.', 'Tritura con el zumo de limón, el jengibre y un poco de agua fría.', 'Si lo quieres más fino, cuélalo (aunque perderás fibra).'] },
+  { n: 'Smoothie de kiwi, espinacas y yogur', e: '🥝', type: 'batido', tags: ['veg'], min: 3, look: 'shake', color: '#A8D46F',
+    ing: [['Kiwi', 150], ['Espinacas', 40], ['Plátano', 80], ['Yogur natural', 125]],
+    steps: ['Pela los kiwis.', 'Tritura con las espinacas, el plátano y el yogur.', 'El kiwi aporta más vitamina C que la naranja.'] },
+  { n: 'Smoothie de remolacha y fresa', e: '🍓', type: 'batido', tags: ['veg'], min: 3, look: 'shake', color: '#C2304F',
+    ing: [['Remolacha (cocida)', 80], ['Fresas', 150], ['Yogur griego 0%', 125], ['Miel', 7]],
+    steps: ['Trocea la remolacha cocida.', 'Tritura con las fresas, el yogur y la miel.', 'La remolacha aporta nitratos naturales que ayudan al rendimiento en el ejercicio.'] },
+
+  // ================= v3: DULCES Y SNACKS SANOS =================
+  { n: 'Mug cake proteico de chocolate', e: '🧁', type: 'snack', tags: ['hp', 'veg'], min: 4, look: 'bowl',
+    ing: [['Huevo entero', 55], ['Proteína whey (polvo)', 30], ['Harina de avena', 20], ['Cacao puro en polvo', 8], ['Leche semidesnatada', 30], ['Chocolate negro 85%', 10]],
+    steps: ['Bate el huevo con la leche en una taza grande.', 'Añade el whey, la harina de avena y el cacao, y mezcla sin grumos.', 'Pon la onza de chocolate en el centro y cocina en el microondas 60-75 segundos.', 'Deja reposar un minuto: queda esponjoso y con el centro fundido.'] },
+  { n: 'Helado de plátano y cacao (nice cream)', e: '🍨', type: 'snack', tags: ['vgn', 'veg'], min: 5, look: 'bowl',
+    ing: [['Plátano', 200], ['Cacao puro en polvo', 8], ['Crema de cacahuete 100%', 10]],
+    steps: ['Trocea el plátano y congélalo al menos 4 horas.', 'Tritura el plátano congelado con el cacao hasta que tenga textura de helado.', 'Sirve con la crema de cacahuete por encima. Sin azúcar añadido.'] },
+  { n: 'Tortitas proteicas de claras y avena', e: '🥞', type: 'desayuno', tags: ['hp', 'veg'], min: 12,
+    ing: [['Clara de huevo', 165], ['Harina de avena', 40], ['Plátano', 60], ['Canela', 1], ['Frutos rojos (mezcla)', 60]],
+    steps: ['Tritura las claras con la harina de avena, el plátano y la canela.', 'Haz tortitas pequeñas en una sartén antiadherente a fuego medio.', 'Dales la vuelta cuando salgan burbujas.', 'Sirve con los frutos rojos por encima.'] },
+  { n: 'Overnight oats de tarta de queso y fresa', e: '🍓', type: 'desayuno', tags: ['hp', 'veg'], min: 5, look: 'bowl',
+    ing: [['Avena en copos (cruda)', 50], ['Yogur griego 0%', 125], ['Leche semidesnatada', 100], ['Fresas', 100], ['Semillas de chía', 8], ['Miel', 7]],
+    steps: ['Mezcla en un tarro la avena, el yogur, la leche, la chía y la miel.', 'Cubre con las fresas troceadas.', 'Déjalo en la nevera toda la noche: por la mañana está listo y sabe a tarta de queso.'] },
+  { n: 'Yogur helado de frutos rojos y chocolate', e: '🍫', type: 'snack', tags: ['hp', 'veg'], min: 10,
+    ing: [['Yogur griego 0%', 250], ['Frutos rojos (mezcla)', 100], ['Chocolate negro 85%', 10], ['Miel', 7]],
+    steps: ['Mezcla el yogur con la miel y extiéndelo en una bandeja con papel de horno.', 'Reparte los frutos rojos y el chocolate rallado por encima.', 'Congela 2 horas y rómpelo en trozos como una tableta.'] },
+  { n: 'Bolitas energéticas de dátil y cacao', e: '🌰', type: 'snack', tags: ['vgn', 'veg'], min: 15,
+    ing: [['Dátiles', 72], ['Almendras', 30], ['Avena en copos (cruda)', 20], ['Cacao puro en polvo', 8]],
+    steps: ['Tritura las almendras y la avena hasta que queden casi harina.', 'Añade los dátiles sin hueso y el cacao y tritura hasta formar una masa.', 'Haz 4 bolitas con las manos y guárdalas en la nevera. Perfectas antes de entrenar.'] },
+  { n: 'Manzana asada con canela y yogur', e: '🍎', type: 'snack', tags: ['veg'], min: 25, look: 'bowl',
+    ing: [['Manzana', 180], ['Canela', 2], ['Yogur griego 0%', 125], ['Nueces', 10]],
+    steps: ['Descorazona la manzana, espolvorea la canela y hornéala a 190 °C unos 20 minutos (o 4 minutos en el microondas).', 'Sírvela templada sobre el yogur.', 'Termina con las nueces troceadas.'] },
+  { n: 'Garbanzos crujientes con pimentón', e: '🫘', type: 'snack', tags: ['vgn', 'veg'], min: 30, look: 'bowl',
+    ing: [['Garbanzos (cocidos)', 150], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Seca muy bien los garbanzos cocidos con papel de cocina.', 'Mézclalos con el aceite, pimentón, comino y sal.', 'Hornea a 200 °C unos 25 minutos, moviéndolos a mitad. Un snack crujiente y saciante.'] },
+
+  // ================= v3: COMIDAS =================
+  { n: 'Poke bowl de salmón', e: '🍣', type: 'comida', tags: ['hp'], min: 20, look: 'bowl',
+    ing: [['Arroz blanco (cocido)', 150], ['Salmón (crudo)', 120], ['Edamame', 60], ['Aguacate', 50], ['Pepino', 60], ['Mango', 60], ['Salsa de soja', 15], ['Semillas de sésamo', 5]],
+    steps: ['Usa salmón apto para consumo en crudo (congelado previamente) y córtalo en dados.', 'Monta el bowl con el arroz de base y coloca encima el salmón, el edamame, el aguacate, el pepino y el mango.', 'Aliña con la salsa de soja y espolvorea el sésamo.'] },
+  { n: 'Tacos de pollo con pico de gallo', e: '🌮', type: 'comida', tags: ['hp'], min: 20,
+    ing: [['Tortilla de maíz', 90], ['Pechuga de pollo (cruda)', 150], ['Tomate', 100], ['Cebolla', 30], ['Aguacate', 50], ['Limón', 10]],
+    steps: ['Sazona el pollo con comino, pimentón y ajo y hazlo a la plancha; córtalo en tiras.', 'Pica el tomate y la cebolla, y mézclalos con el zumo de limón y sal (pico de gallo).', 'Calienta las tortillas y rellénalas con el pollo, el pico de gallo y el aguacate.'] },
+  { n: 'Curry ligero de garbanzos y espinacas', e: '🍛', type: 'comida', tags: ['vgn', 'veg'], min: 25,
+    ing: [['Garbanzos (cocidos)', 200], ['Espinacas', 100], ['Tomate triturado', 100], ['Leche de coco light', 80], ['Cebolla', 50], ['Arroz blanco (cocido)', 120], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Sofríe la cebolla con el aceite y 1 cucharadita de curry en polvo.', 'Añade el tomate y la leche de coco y cuece 5 minutos.', 'Incorpora los garbanzos y las espinacas y cocina 5 minutos más.', 'Sirve con el arroz.'] },
+  { n: 'Hamburguesa de salmón con rúcula', e: '🍔', type: 'comida', tags: ['hp'], min: 20,
+    ing: [['Salmón (crudo)', 140], ['Pan integral', 70], ['Rúcula', 20], ['Tomate', 60], ['Yogur griego 0%', 30]],
+    steps: ['Pica el salmón a cuchillo, sazónalo y forma una hamburguesa.', 'Hazla a la plancha 3 minutos por lado.', 'Mezcla el yogur con limón y eneldo como salsa.', 'Monta en el pan tostado con la rúcula y el tomate.'] },
+  { n: 'Shakshuka (huevos en salsa de tomate)', e: '🍳', type: 'comida', tags: ['veg'], min: 25,
+    ing: [['Huevo entero', 110], ['Tomate triturado', 200], ['Pimiento rojo', 80], ['Cebolla', 50], ['Aceite de oliva virgen extra', 8], ['Pan integral', 60]],
+    steps: ['Sofríe la cebolla y el pimiento con el aceite, comino y pimentón.', 'Añade el tomate y cuece 10 minutos.', 'Haz dos huecos, casca los huevos y tapa hasta que cuaje la clara (5-6 minutos).', 'Sirve con el pan para mojar.'] },
+  { n: 'Buddha bowl de quinoa y boniato asado', e: '🥗', type: 'comida', tags: ['vgn', 'veg'], min: 35, look: 'bowl',
+    ing: [['Quinoa (cocida)', 150], ['Boniato (cocido)', 150], ['Garbanzos (cocidos)', 80], ['Kale / col rizada', 40], ['Hummus', 30], ['Aguacate', 40]],
+    steps: ['Asa el boniato en dados a 200 °C unos 25 minutos con especias.', 'Masajea el kale con unas gotas de limón para ablandarlo.', 'Monta el bowl con la quinoa, el boniato, los garbanzos, el kale y el aguacate, y corona con el hummus.'] },
+  { n: 'Wok de pollo teriyaki casero', e: '🥢', type: 'comida', tags: ['hp'], min: 25,
+    ing: [['Pechuga de pollo (cruda)', 160], ['Arroz integral (cocido)', 150], ['Brócoli', 100], ['Pimiento rojo', 80], ['Salsa de soja', 15], ['Miel', 7], ['Jengibre fresco', 3], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Mezcla la soja, la miel y el jengibre rallado: es tu salsa teriyaki ligera.', 'Saltea el pollo en tiras a fuego fuerte y reserva.', 'Saltea las verduras 4 minutos, devuelve el pollo y añade la salsa hasta que brille.', 'Sirve sobre el arroz.'] },
+  { n: 'Pasta boloñesa de lentejas', e: '🍝', type: 'comida', tags: ['vgn', 'veg'], min: 30,
+    ing: [['Pasta integral (cocida)', 200], ['Lentejas (cocidas)', 150], ['Tomate triturado', 150], ['Zanahoria', 50], ['Cebolla', 40], ['Aceite de oliva virgen extra', 8]],
+    steps: ['Sofríe la cebolla y la zanahoria muy picadas con el aceite.', 'Añade el tomate y las lentejas y cuece 10 minutos aplastando un poco las lentejas.', 'Mezcla con la pasta. Sabe a boloñesa con mucha más fibra.'] },
+  { n: 'Ensalada César fit', e: '🥗', type: 'comida', tags: ['hp', 'lc'], min: 20, look: 'bowl',
+    ing: [['Pechuga de pollo (cruda)', 150], ['Lechuga', 120], ['Pan integral', 30], ['Queso parmesano', 10], ['Yogur griego 0%', 50], ['Mostaza', 5], ['Limón', 10]],
+    steps: ['Haz el pollo a la plancha y córtalo en tiras.', 'Tuesta el pan en dados para hacer picatostes.', 'Mezcla el yogur, la mostaza, el limón y la mitad del parmesano como salsa César ligera.', 'Monta la lechuga con el pollo, los picatostes, la salsa y el resto del parmesano.'] },
+  { n: 'Albóndigas de pavo en salsa de tomate', e: '🍲', type: 'comida', tags: ['hp'], min: 35,
+    ing: [['Pechuga de pavo (cruda)', 180], ['Huevo entero', 25], ['Pan integral', 20], ['Tomate triturado', 150], ['Arroz blanco (cocido)', 120], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Pica el pavo y mézclalo con el huevo, el pan rallado, ajo, perejil y sal.', 'Forma albóndigas y dóralas con el aceite.', 'Añade el tomate y cuece 15 minutos a fuego suave.', 'Sirve con el arroz.'] },
+  { n: 'Gyros de pollo en pita con tzatziki', e: '🥙', type: 'comida', tags: ['hp'], min: 20,
+    ing: [['Pan de pita integral', 60], ['Pechuga de pollo (cruda)', 140], ['Yogur griego 0%', 60], ['Pepino', 50], ['Tomate', 60], ['Cebolla', 20]],
+    steps: ['Marina el pollo con pimentón, comino, orégano y limón, y hazlo a la plancha en tiras.', 'Ralla el pepino y mézclalo con el yogur, ajo y sal (tzatziki).', 'Rellena la pita caliente con el pollo, el tomate, la cebolla y el tzatziki.'] },
+
+  // ================= v3: CENAS =================
+  { n: 'Pizza de tortilla integral', e: '🍕', type: 'cena', tags: ['hp'], min: 15,
+    ing: [['Tortilla de trigo (wrap)', 60], ['Tomate triturado', 60], ['Mozzarella light', 60], ['Fiambre de pavo', 40], ['Champiñones', 50], ['Albahaca fresca', 3]],
+    steps: ['Unta la tortilla con el tomate y orégano.', 'Reparte la mozzarella, el pavo y los champiñones laminados.', 'Hornea a 220 °C unos 8 minutos hasta que la base esté crujiente.', 'Termina con la albahaca fresca.'] },
+  { n: 'Tortilla de patata y calabacín al horno', e: '🥔', type: 'cena', tags: ['veg'], min: 35,
+    ing: [['Huevo entero', 165], ['Patata (cocida)', 150], ['Calabacín', 100], ['Cebolla', 40], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Cuece o haz al microondas la patata en láminas finas.', 'Sofríe la cebolla y el calabacín con el aceite.', 'Mezcla con los huevos batidos y hornea en un molde a 180 °C unos 20 minutos.', 'Toda la jugosidad con mucho menos aceite.'] },
+  { n: 'Revuelto de tofu con espinacas', e: '🥬', type: 'cena', tags: ['vgn', 'veg', 'hp'], min: 15,
+    ing: [['Tofu firme', 200], ['Espinacas', 80], ['Champiñones', 80], ['Pan integral', 60], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Saltea los champiñones con el aceite.', 'Desmenuza el tofu con un tenedor y añádelo con una pizca de cúrcuma, sal y pimienta.', 'Agrega las espinacas hasta que se reduzcan.', 'Sirve con el pan tostado.'] },
+  { n: 'Crema de calabaza y jengibre con huevo poché', e: '🎃', type: 'cena', tags: ['veg', 'lc'], min: 30, look: 'bowl',
+    ing: [['Calabaza', 300], ['Zanahoria', 80], ['Jengibre fresco', 3], ['Huevo entero', 55], ['Aceite de oliva virgen extra', 5], ['Semillas de calabaza', 10]],
+    steps: ['Cuece la calabaza y la zanahoria con el jengibre 20 minutos y tritura con el aceite.', 'Haz el huevo poché: 3 minutos en agua casi hirviendo con un chorrito de vinagre.', 'Sirve la crema con el huevo encima y las semillas tostadas.'] },
+  { n: 'Brochetas de pollo y verduras con salsa de yogur', e: '🍢', type: 'cena', tags: ['hp', 'lc'], min: 25,
+    ing: [['Pechuga de pollo (cruda)', 170], ['Pimiento verde', 80], ['Cebolla', 50], ['Calabacín', 80], ['Yogur griego 0%', 60], ['Aceite de oliva virgen extra', 5]],
+    steps: ['Corta el pollo y las verduras en dados y monta las brochetas.', 'Úntalas con el aceite y especias y hazlas a la plancha o al horno 12-15 minutos.', 'Sirve con el yogur mezclado con limón, ajo y menta.'] },
+  { n: 'Wrap de atún y aguacate', e: '🌯', type: 'cena', tags: ['hp'], min: 8,
+    ing: [['Tortilla de trigo (wrap)', 60], ['Atún al natural (lata)', 104], ['Aguacate', 50], ['Lechuga', 30], ['Tomate', 50], ['Yogur griego 0%', 30]],
+    steps: ['Mezcla el atún escurrido con el yogur, sal y pimienta.', 'Extiende el aguacate machacado sobre la tortilla.', 'Añade el atún, la lechuga y el tomate y enrolla bien apretado.'] },
+  { n: 'Tataki de atún con ensalada de algas', e: '🐟', type: 'cena', tags: ['hp', 'lc'], min: 15,
+    ing: [['Atún fresco (crudo)', 150], ['Pepino', 100], ['Edamame', 60], ['Alga nori', 3], ['Salsa de soja', 15], ['Semillas de sésamo', 5]],
+    steps: ['Marca el atún 30 segundos por cada lado en una sartén muy caliente y córtalo en lonchas.', 'Mezcla el pepino en tiras con el edamame y el alga nori troceada.', 'Aliña con la soja y el sésamo, y coloca el atún encima.'] },
+
+  // ================= v3: DESAYUNOS =================
+  { n: 'Tostada de salmón ahumado, aguacate y huevo', e: '🥑', type: 'desayuno', tags: ['hp'], min: 10,
+    ing: [['Pan de centeno', 60], ['Salmón ahumado', 50], ['Aguacate', 50], ['Huevo entero', 55]],
+    steps: ['Tuesta el pan de centeno.', 'Unta el aguacate machacado con limón y pimienta.', 'Coloca el salmón ahumado y el huevo poché o a la plancha encima.'] },
+  { n: 'Bowl de frutos rojos estilo açaí', e: '🫐', type: 'desayuno', tags: ['veg'], min: 5, look: 'bowl',
+    ing: [['Frutos rojos (mezcla)', 150], ['Plátano', 80], ['Yogur griego 0%', 100], ['Muesli sin azúcar', 30], ['Semillas de chía', 8]],
+    steps: ['Tritura los frutos rojos congelados con medio plátano y el yogur hasta que quede muy espeso.', 'Sirve en un bol y decora con el resto del plátano, el muesli y la chía.'] },
+  { n: 'Crepes de avena rellenos de cottage y fresa', e: '🥞', type: 'desayuno', tags: ['hp', 'veg'], min: 12,
+    ing: [['Harina de avena', 40], ['Clara de huevo', 100], ['Leche desnatada', 50], ['Queso cottage', 100], ['Fresas', 80]],
+    steps: ['Bate la harina de avena con las claras y la leche hasta obtener una masa líquida.', 'Haz crepes finos en una sartén antiadherente.', 'Rellénalos con el cottage y las fresas laminadas.'] },
+  { n: 'Huevos turcos con yogur (çilbir)', e: '🍳', type: 'desayuno', tags: ['hp', 'veg'], min: 12,
+    ing: [['Yogur griego natural', 125], ['Huevo entero', 110], ['Aceite de oliva virgen extra', 5], ['Pan de pita integral', 60]],
+    steps: ['Mezcla el yogur con un poco de ajo rallado y sal, y extiéndelo en un plato.', 'Haz los huevos poché y colócalos encima.', 'Calienta el aceite con pimentón y riégalo por encima. Moja con el pan de pita.'] },
+  { n: 'Porridge de manzana y canela con proteína', e: '🍏', type: 'desayuno', tags: ['hp', 'veg'], min: 8, look: 'bowl',
+    ing: [['Avena en copos (cruda)', 50], ['Leche semidesnatada', 200], ['Manzana', 120], ['Canela', 2], ['Proteína whey (polvo)', 20], ['Nueces', 10]],
+    steps: ['Cuece la avena con la leche, la manzana rallada y la canela 4-5 minutos.', 'Fuera del fuego, añade el whey y remueve.', 'Termina con las nueces por encima.'] }
 ];
 
 function dishFromRow(r, i) {
@@ -334,7 +503,7 @@ function dishFromRow(r, i) {
     m.kcal += food.kcal * g / 100; m.p += food.p * g / 100;
     m.c += food.c * g / 100; m.f += food.f * g / 100; m.g += g;
   });
-  return { id: 'd' + i, name: r.n, emoji: r.e, type: r.type, tags: r.tags, min: r.min, items, steps: r.steps, m };
+  return { id: 'd' + i, name: r.n, emoji: r.e, type: r.type, tags: r.tags, min: r.min, items, steps: r.steps, m, look: r.look || (r.type === 'batido' ? 'shake' : 'plate'), color: r.color || null };
 }
 const DISHES = DISH_ROWS.map(dishFromRow);
 

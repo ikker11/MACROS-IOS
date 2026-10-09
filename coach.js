@@ -107,7 +107,7 @@ const Coach = (() => {
     const n = S.profile.name ? S.profile.name.split(' ')[0] : '';
     return `¡Hola${n ? ', ' + n : ''}! Soy tu coach de nutrición y deporte. Vivo dentro de esta app y funciono sin internet.\n\nPuedo decirte qué te queda por comer, proponerte platos que encajen con tus macros, consultar los macros de un alimento, ajustar tu entrenamiento o resolver dudas. Cuanto más uses la app, mejor te conoceré.`;
   }
-  const baseChips = () => ['¿Qué me queda hoy?', '¿Qué puedo comer ahora?', '¿Cómo voy esta semana?', 'Rutina de hoy'];
+  const baseChips = () => ['¿Qué me queda hoy?', '¿Qué puedo comer ahora?', 'Recomiéndame un batido', 'Rutina de hoy'];
 
   function needPlan() {
     return { t: 'Para darte cifras exactas necesito tu perfil (edad, altura, peso y objetivo). Complétalo en la pestaña **Perfil** y calcularé tus macros al instante.', chips: ['Cuánta proteína necesito', 'Consejos para perder grasa'] };
@@ -151,10 +151,11 @@ const Coach = (() => {
     if (/desayun/.test(text)) slot = 'desayuno'; else if (/almuerz/.test(text)) slot = 'almuerzo'; else if (/merend|snack|pica|tentempie/.test(text)) slot = 'merienda';
     else if (/cen[ao]|cenar/.test(text)) slot = 'cena'; else if (/(comer|comida|como|mediodia)\b/.test(text) && !/ahora/.test(text)) slot = 'comida';
     if (!slot) slot = slotFor(new Date());
-    const type = slotInfo(slot).type, picks = suggestDishes(type);
+    const shake = /batido|smoothie|zumo|licuado/.test(text);
+    const type = shake ? 'batido' : slotInfo(slot).type, picks = suggestDishes(type);
     if (!picks.length) return { t: 'No encuentro platos que encajen con tus preferencias. Prueba a quitar algún «no me gusta» desde el botón 🧠 Aprendido.', chips: baseChips() };
     const rem = plan ? remaining(todayKey()) : null;
-    let t = `Para ${type === 'snack' ? 'un snack' : 'tu ' + slotInfo(slot).l.toLowerCase()}${rem ? ` (te quedan ${r0(rem.kcal)} kcal)` : ''} te recomiendo:\n`;
+    let t = `Para ${shake ? 'un batido' : type === 'snack' ? 'un snack' : 'tu ' + slotInfo(slot).l.toLowerCase()}${rem ? ` (te quedan ${r0(rem.kcal)} kcal)` : ''} te recomiendo:\n`;
     picks.forEach(({ d, sc }) => { const m = { kcal: d.m.kcal * sc, p: d.m.p * sc, c: d.m.c * sc, f: d.m.f * sc }; t += `- **${d.name}**${sc !== 1 ? ` (ración ×${sc})` : ''}: ${r0(m.kcal)} kcal · P ${r0(m.p)} · H ${r0(m.c)} · G ${r0(m.f)}\n`; });
     t += '\nTienes la receta de cada uno en la pestaña **Restaurante**, donde puedes añadirlos a tu día con un toque.';
     return { t, chips: ['Otra idea de snack', '¿Qué me queda hoy?', 'Proteína rápida'] };
@@ -249,7 +250,8 @@ const Coach = (() => {
     { re: /(cuanta proteina|proteina necesito|cuanta proteina)/, a: answerProteinNeeds },
     { re: /(macros|cuantas calorias necesito|mis calorias|mi objetivo|cuanto debo comer)/, a: () => { const plan = getPlan(); if (!plan) return needPlan(); return { t: `Tu objetivo diario es **${plan.kcal} kcal**: ${plan.p} g de proteína, ${plan.c} g de hidratos y ${plan.f} g de grasas (más ${plan.fiber} g de fibra). Se calcula con la fórmula Mifflin-St Jeor y tu nivel de actividad.`, chips: ['¿Qué me queda hoy?', '¿Qué puedo comer ahora?'] }; } },
     { re: /(me queda|quedan|restante|falta por|que llevo|cuanto llevo|cuanto me falta)/, a: answerRemaining },
-    { re: /(que (puedo )?(comer|cenar|desayunar|merendar|almorzar)|idea|receta|sugerencia|sugiere|recomienda|que como|que ceno|que desayuno|snack|merienda|plato)/, a: null },
+    { re: /(foto|etiqueta|imagen|escane|camara|envase|codigo de barras)/, a: () => ({ t: 'Puedo trabajar con fotos:\n- **Leer etiqueta**: haz una foto a la tabla nutricional de un envase y leo las calorías y macros por 100 g. Revisas los valores, le pones nombre y sección, y queda guardado para añadirlo cuando quieras.\n- **Analizar plato**: haz una foto a tu comida, dime qué lleva y el tamaño comparado con tu mano, y te calculo las calorías y te doy consejo.\n\nTienes los dos botones arriba del chat. Todo se procesa en tu móvil.', chips: baseChips() }) },
+    { re: /(que (puedo )?(comer|cenar|desayunar|merendar|almorzar)|idea|receta|sugerencia|sugiere|recomienda|que como|que ceno|que desayuno|snack|merienda|plato|batido|smoothie)/, a: null },
     { re: /^(hola|buenas|hey|buenos dias|buenas tardes|buenas noches|que tal)\b/, a: () => ({ t: `¡Hola! ¿En qué te ayudo hoy?`, chips: baseChips() }) },
     { re: /(gracias|genial|perfecto|vale|ok\b)/, a: () => ({ t: '¡Para eso estoy! Si necesitas algo más, aquí me tienes.', chips: baseChips() }) },
     { re: /(quien eres|que puedes hacer|ayuda|que sabes)/, a: () => ({ t: 'Soy el coach de MacroFit. Puedo:\n- Decirte lo que te queda por comer hoy.\n- Proponerte platos según tus macros y la hora.\n- Darte los macros de cualquier alimento («¿cuánto tienen 150 g de pollo?»).\n- Adaptar tu entreno a lesiones o tiempo.\n- Resolver dudas de nutrición y deporte.\n\nTambién aprendo: dime cosas como «no me gusta el pescado» o «me duele la rodilla».', chips: baseChips() }) }

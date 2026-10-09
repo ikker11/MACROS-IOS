@@ -217,3 +217,66 @@ a.btn { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .exanim img.b { animation-duration: 4s; } }
 
 .btn.onbg { background: var(--card); color: var(--acc); box-shadow: var(--shadow); }
+
+/* ---------- v3: páginas completas, iconos 3D, platos, animaciones, coach ---------- */
+.sheet.full .sheet-panel { max-height: 100%; height: 100%; border-radius: 0; padding-top: var(--safe-t); }
+.sheet.full .grab { display: none; }
+.pagetitle { font-size: 28px !important; letter-spacing: -.6px; }
+.ico { width: 100%; height: 100%; object-fit: contain; display: block; }
+.item .em .ico { width: 30px; height: 30px; }
+.hico { width: 26px !important; height: 26px !important; display: inline-block; }
+.bigico { width: 64px !important; height: 64px !important; }
+.big-emoji .ico { width: 64px; height: 64px; }
+.chipico { width: 18px !important; height: 18px !important; display: inline-block; vertical-align: -4px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--acc), #1f9bd6); color: #fff; font-weight: 800; font-size: 17px; display: grid; place-items: center; box-shadow: var(--shadow); }
+.mealsum { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.ms { background: var(--card2); border-radius: 14px; padding: 8px 2px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.ms .e { width: 30px; height: 30px; }
+.ms .l { font-size: 10.5px; color: var(--txt2); font-weight: 600; }
+.ms b { font-size: 14px; }
+.ms:active { transform: scale(.96); }
+/* restaurante en tarjetas */
+.dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (min-width: 560px) { .dgrid { grid-template-columns: 1fr 1fr 1fr; } }
+.dcard { background: var(--card); border-radius: 18px; overflow: hidden; text-align: left; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.dcard:active { transform: scale(.98); }
+.dimgw { position: relative; aspect-ratio: 4 / 3; background: var(--card2); }
+.dimg { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity .35s; }
+.dimg.ready { opacity: 1; }
+.dbadge { position: absolute; left: 8px; top: 8px; background: rgba(48,180,90,.92); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+.dbody { padding: 9px 11px 11px; display: flex; flex-direction: column; gap: 3px; }
+.dbody .t { font-weight: 700; font-size: 14px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.dbody .s { font-size: 12px; color: var(--txt2); }
+.hero .dimg { opacity: 0; }
+.hero .dimg.ready { opacity: 1; }
+.hero { aspect-ratio: 4 / 3; background: var(--card2); }
+/* ejercicios animados */
+.exvideo { position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, var(--card), var(--card2)); box-shadow: var(--shadow); aspect-ratio: 6 / 5; }
+#exv { width: 100%; height: 100%; cursor: pointer; }
+.exsvg { width: 100%; height: 100%; display: block; }
+.exthumb { display: block; width: 100%; height: 100%; background: var(--card); }
+.sexsw { position: absolute; right: 10px; top: 10px; display: flex; background: rgba(0,0,0,.08); border-radius: 12px; padding: 2px; }
+.sexsw button { width: 34px; height: 30px; border-radius: 10px; font-size: 16px; font-weight: 700; color: var(--txt2); }
+.sexsw button.on { background: var(--card); color: var(--acc); box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+/* coach con imágenes */
+.coachtools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.ctool { background: var(--card); border-radius: 16px; padding: 12px; display: flex; gap: 10px; align-items: center; box-shadow: var(--shadow); cursor: pointer; }
+.ctool:active { transform: scale(.98); }
+.ctool .ci { font-size: 26px; width: 42px; height: 42px; border-radius: 12px; background: var(--acc-soft); display: grid; place-items: center; flex: none; }
+.ctool b { display: block; font-size: 14px; }
+.ctool small { display: block; font-size: 11.5px; color: var(--txt2); line-height: 1.25; margin-top: 2px; }
+.spinner { width: 38px; height: 38px; border-radius: 50%; border: 4px solid var(--acc-soft); border-top-color: var(--acc); margin: 6px auto 12px; animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.labelprev { border-radius: 16px; overflow: hidden; margin-bottom: 10px; max-height: 220px; background: var(--card2); }
+.labelprev img { width: 100%; display: block; object-fit: contain; max-height: 220px; }
+.pitem { padding: 10px 12px; }
+.pitem + .pitem { border-top: 1px solid var(--sep); }
+.pitem .em { width: 36px; height: 36px; border-radius: 10px; background: var(--card2); display: grid; place-items: center; flex: none; }
+.pitem .em .ico { width: 28px; height: 28px; }
+.pitem .t { font-weight: 600; font-size: 14.5px; }
+.pitem .s { font-size: 12px; color: var(--txt2); }
+.seg.sm { margin: 8px 0 0; }
+.seg.sm button { font-size: 12.5px; padding: 6px 2px; }
+ul.adv { margin: 0; padding-left: 18px; }
+ul.adv li { margin: 4px 0; font-size: 14.5px; }
+@media (max-width: 380px) { .coachtools { grid-template-columns: 1fr; } .mealsum .l { font-size: 9.5px; } }

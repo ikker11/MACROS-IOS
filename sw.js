@@ -1,8 +1,8 @@
 /* Service worker de MacroFit.
    Sube el número de VERSION cada vez que actualices archivos de la app.
    Tus datos NO se tocan: viven en el almacenamiento del navegador, no en esta caché. */
-const VERSION = 'macrofit-v4';
-const FILES = ['./', 'index.html', 'styles.css', 'data.js', 'ex-img.js', 'coach.js', 'app.js', 'manifest.json',
+const VERSION = 'macrofit-v5';
+const FILES = ['./', 'index.html', 'styles.css', 'data.js', 'food3d.js', 'dishart.js', 'anim.js', 'coach.js', 'vision.js', 'app.js', 'manifest.json',
   'icon-180.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', e => {

@@ -7,20 +7,12 @@ App de control de macros. **Un mismo código** sirve para:
 Cualquier cambio en la app se aplica a las dos versiones a la vez.
 
 ## Qué incluye
-- **Hoy**: calorías y macros restantes (anillo y barras) que se actualizan al añadir cada alimento; la franja (desayuno, almuerzo, comida, merienda, cena) se detecta por la hora. Agua y gráfica de 7 días.
-- **Añadir alimento**: 135 alimentos saludables, por gramos o por unidad, favoritos, recientes y alimentos propios.
-- **Restaurante**: 44 platos y snacks con ilustración, receta paso a paso y ración ajustada a tus macros. Puedes poner tu propia foto de cada plato y abrir fotos reales del plato en internet.
-- **Deporte**: rutinas personalizadas (casa o gimnasio, 2-6 días, nivel, lesiones), biblioteca de ejercicios con fotos y animación del movimiento, vídeo de cada ejercicio (se abre en YouTube) y registro del gasto calórico (fórmula MET).
-- **Coach**: asistente local, sin internet ni coste, que aprende de tus registros y de lo que le cuentas.
+- **Hoy**: resumen con calorías y macros restantes (anillo y barras), comidas del día, agua y gráfica de 7 días. El perfil se abre con el botón redondo de arriba.
+- **Diario**: página propia para registrar lo que comes; la franja (desayuno, almuerzo, comida, merienda, cena) se detecta por la hora. Añadir alimento se abre a pantalla completa, con 153 alimentos en 3D, por gramos o unidades.
+- **Restaurante**: 90 platos con receta e imagen (15 batidos de proteína y smoothies, con y sin creatina, dulces sanos, comidas y cenas), ordenados según lo que te queda por comer.
+- **Deporte**: rutinas personalizadas y biblioteca de ejercicios con animación de silueta (hombre o mujer) y el músculo resaltado; enlace a vídeo real; registro del gasto calórico (MET).
+- **Coach**: asistente local que aprende de ti. Lee etiquetas nutricionales con la cámara (OCR en el propio móvil) y las guarda con nombre y sección; analiza fotos de platos con raciones visuales y te aconseja.
 - **Perfil**: cálculo de macros (Mifflin-St Jeor), peso con gráfica, PIN y copia de seguridad.
-
-## Archivos
-| Archivo | Para qué |
-|---|---|
-| index.html, styles.css, app.js, coach.js, data.js, ex-img.js, manifest.json, sw.js, icon-*.png | La app (iPhone y Android) |
-| android-build.sh | Genera el proyecto Android a partir de la app |
-| macrofit.keystore | Firma fija del APK (para que las actualizaciones se instalen encima sin perder datos) |
-| android.yml | Instrucciones para que GitHub compile el APK (va en `.github/workflows/android.yml`) |
 
 ## Publicar (desde la tablet, con el navegador)
 1. En GitHub crea un repositorio **público** nuevo, por ejemplo `MACROFIT`.
@@ -36,5 +28,7 @@ Cualquier cambio en la app se aplica a las dos versiones a la vez.
 
 ## Notas
 - La firma del APK está en el repositorio público. Para una app personal no es un problema; solo significa que alguien podría firmar un APK con la misma firma, así que instala MacroFit solo desde tu propio repositorio.
-- Imágenes de ejercicios: [Free Exercise DB](https://github.com/yuhonas/free-exercise-db), dominio público. Las ilustraciones de los platos se generan en la propia app.
+- Iconos 3D de alimentos: [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (licencia MIT). Las imágenes de los platos y las animaciones de ejercicios se generan en la propia app.
+- Lector de etiquetas: [Tesseract.js-core](https://github.com/naptha/tesseract.js-core) y datos de idioma [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast) (licencia Apache 2.0).
+- El análisis de platos por foto es una estimación guiada (tú indicas qué hay y el tamaño); reconocer la comida automáticamente necesitaría una IA externa con internet.
 - Los cálculos son orientativos y no sustituyen el consejo de un médico o dietista.

@@ -18,8 +18,11 @@ mkdir -p "$A/app/src/main/java/com/macrofit/app" \
          "$A/app/src/main/res/mipmap-anydpi-v26"
 
 # ---------- archivos web (los mismos de la PWA) ----------
-cp index.html styles.css app.js coach.js data.js ex-img.js manifest.json \
-   icon-180.png icon-192.png icon-512.png "$A/app/src/main/assets/www/"
+for f in *.html *.css *.js *.json *.png *.traineddata; do
+  [ -f "$f" ] || continue
+  case "$f" in sw.js|android-build.sh) continue ;; esac
+  cp "$f" "$A/app/src/main/assets/www/"
+done
 
 # ---------- iconos ----------
 cp icon-192.png "$A/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
@@ -132,7 +135,7 @@ cat > "$A/app/src/main/res/values/colors.xml" <<'EOF'
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg">#F2F2F7</color>
-    <color name="icon_bg">#30B45A</color>
+    <color name="icon_bg">#14B86A</color>
 </resources>
 EOF
 cat > "$A/app/src/main/res/values-night/colors.xml" <<'EOF'
@@ -196,9 +199,12 @@ package com.macrofit.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -233,6 +239,7 @@ public class MainActivity extends Activity {
     private WebView web;
     private ValueCallback<Uri[]> fileCallback;
     private String pendingSave;
+    private Uri cameraUri;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -265,7 +272,8 @@ public class MainActivity extends Activity {
                     String mime = mimeOf(path);
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Cache-Control", "no-cache");
-                    return new WebResourceResponse(mime, mime.startsWith("image/") ? null : "utf-8", 200, "OK", headers, in);
+                    boolean text = mime.startsWith("text/") || mime.endsWith("javascript") || mime.endsWith("json");
+                    return new WebResourceResponse(mime, text ? "utf-8" : null, 200, "OK", headers, in);
                 } catch (Exception e) {
                     return new WebResourceResponse("text/plain", "utf-8", 404, "Not Found",
                             new HashMap<String, String>(), new ByteArrayInputStream(new byte[0]));
@@ -292,8 +300,13 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType(images ? "image/*" : "*/*");
+                Intent chooser = Intent.createChooser(i, images ? "Hacer o elegir foto" : "Elegir copia de seguridad");
+                if (images) {
+                    Intent cam = cameraIntent();
+                    if (cam != null) chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cam});
+                }
                 try {
-                    startActivityForResult(Intent.createChooser(i, images ? "Elegir foto" : "Elegir copia de seguridad"), REQ_PICK);
+                    startActivityForResult(chooser, REQ_PICK);
                 } catch (ActivityNotFoundException e) {
                     fileCallback = null;
                     return false;
@@ -327,6 +340,27 @@ public class MainActivity extends Activity {
 
         if (state != null) web.restoreState(state);
         if (state == null || web.getUrl() == null) web.loadUrl(START);
+    }
+
+    /** Prepara la cámara: la foto se guarda en Imágenes/MacroFit. */
+    private Intent cameraIntent() {
+        cameraUri = null;
+        if (Build.VERSION.SDK_INT < 29) return null;
+        try {
+            ContentValues v = new ContentValues();
+            v.put(MediaStore.Images.Media.DISPLAY_NAME, "macrofit_" + System.currentTimeMillis() + ".jpg");
+            v.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            v.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/MacroFit");
+            cameraUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, v);
+            if (cameraUri == null) return null;
+            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            i.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+            i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            return i;
+        } catch (Exception e) {
+            cameraUri = null;
+            return null;
+        }
     }
 
     private static String mimeOf(String p) {
@@ -388,6 +422,12 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Uri uri = (resultCode == RESULT_OK && data != null) ? data.getData() : null;
         if (requestCode == REQ_PICK) {
+            if (uri == null && resultCode == RESULT_OK && cameraUri != null) {
+                uri = cameraUri;
+            } else if (cameraUri != null) {
+                try { getContentResolver().delete(cameraUri, null, null); } catch (Exception ignored) { }
+            }
+            cameraUri = null;
             if (fileCallback != null) {
                 fileCallback.onReceiveValue(uri != null ? new Uri[]{uri} : null);
                 fileCallback = null;
